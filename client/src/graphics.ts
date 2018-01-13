@@ -1,18 +1,20 @@
-
+import * as PIXI from "pixi.js";
 
 export default class Graphics {
+    renderables: Renderable[];
     context: CanvasRenderingContext2D;
     zoom = 1;
     centerX = 0;
     centerY = 0;
-    get width(){
+    get width() {
         return this.context.canvas.clientWidth;
     }
-    get height(){
+    get height() {
         return this.context.canvas.clientHeight;
     }
-    public constructor(context: CanvasRenderingContext2D){
-        console.log(context);
+    public constructor(context: CanvasRenderingContext2D) {
+        
+        this.renderables = new Array<Renderable>();
         this.context = context;
         let width = this.width;
         let height = this.height;
@@ -27,7 +29,10 @@ export default class Graphics {
         this.context.scale(this.zoom, this.zoom);
     }
     init() {
-        requestAnimationFrame(this.draw)
+        let that = this;
+        requestAnimationFrame(function () {
+            that.draw();
+        });
     }
     /**
      * Draws the canvas.
@@ -36,8 +41,19 @@ export default class Graphics {
         this.context.save();
         this.context.clearRect(0, 0, this.width, this.height);
         this.resetTransforms();
-        this.context.fillRect(0, 0, 500, -500 + (Date.now() % 1000));
+        for (const object of this.renderables) {
+            this.context.save();
+            object.draw(this.context);
+            this.context.restore();
+        }
         this.context.restore();
-        window.requestAnimationFrame(this.draw);
+        let that = this;
+        requestAnimationFrame(function () {
+            that.draw();
+        });
     }
+}
+
+export interface Renderable {
+    draw(context: CanvasRenderingContext2D): void;
 }

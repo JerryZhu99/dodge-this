@@ -4,7 +4,7 @@ import "stylesheets/styles.scss";
 import * as React from "react";
 import {render} from 'react-dom';
 
-import Game from "src/game";
+import GameContainer from "src/game_container";
 
-render(<Game name="test"/>, document.getElementById('view'));
+render(<GameContainer name="test"/>, document.getElementById('view'));
 

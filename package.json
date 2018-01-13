@@ -20,6 +20,7 @@
     "html-webpack-plugin": "^2.30.1",
     "jquery": "^3.2.1",
     "node-sass": "^4.7.2",
+    "pixi.js": "^4.6.2",
     "popper.js": "^1.12.9",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -29,6 +30,7 @@
     "webpack": "^3.10.0"
   },
   "devDependencies": {
+    "@types/pixi.js": "^4.6.3",
     "awesome-typescript-loader": "^3.4.1",
     "source-map-loader": "^0.2.3",
     "ts-loader": "^3.2.0",
