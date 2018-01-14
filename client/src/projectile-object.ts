@@ -1,23 +1,16 @@
-import { Container, Graphics, Point } from "pixi.js";
-import { Vector } from "./math_utils";
-import { projectiles } from "./game";
+import { Container, Graphics, Point, PointLike } from "pixi.js";
+import { Vector } from "./../../shared/math-utils";
+import Projectile from "./../../shared/projectile";
 
-
-
-export default class Projectile extends Container{
-    velocity: Vector;
-    lifeTime: number;
-    time: number;
-    trailPoints: Point[];
+export default class ProjectileObject extends Projectile{
+    display: Container;
+    trailPoints: Vector[];
     trail: Graphics;
     lead: Graphics;
-    constructor(p: Point, v: Point){
-        super();
-        this.position = p;
-        this.velocity = new Vector(v);
-        this.time = 0;
-        this.lifeTime = 200;
-        this.trailPoints = new Array<Point>()
+    constructor(p: Vector, v: Vector){
+        super(p,v);
+        this.display = new Container();
+        this.trailPoints = new Array<Vector>();
         this.lead = new Graphics();
         this.trail = new Graphics();
         let graphics = new Graphics();
@@ -25,18 +18,19 @@ export default class Projectile extends Container{
         graphics.beginFill(0x00A5FF, 0.9);
         graphics.drawCircle(0,0,5);
         graphics.endFill();
-        this.addChild(graphics);
-        this.addChild(this.lead);
-        this.addChild(this.trail);
+        this.display.addChild(graphics);
+        this.display.addChild(this.lead);
+        this.display.addChild(this.trail);
     }
     update(deltaTime: number){
-        this.time += deltaTime;
-        this.position = new Vector(this.position).add(this.velocity.scaled(deltaTime));
-        if(this.time >= this.lifeTime){
-            projectiles.removeChild(this);
-        }
+        super.update(deltaTime);
+        this.display.position.x = this.position.x; 
+        this.display.position.y = this.position.y; 
         this.drawTrail();
         this.drawLead();
+    }
+    destroy(){
+        super.destroy();
     }
     drawTrail(){
         let p = this.position;
@@ -48,7 +42,7 @@ export default class Projectile extends Container{
             g.lineStyle((10 - i) / 10 * 5, 0x0065FF, (10 - i) / 10);
             g.lineTo(q.x - p.x, q.y - p.y);
         }
-        this.trailPoints.unshift(new Point(p.x, p.y));
+        this.trailPoints.unshift(new Vector(p));
         if(this.trailPoints.length > 10) this.trailPoints.pop();
     }
     drawLead(){

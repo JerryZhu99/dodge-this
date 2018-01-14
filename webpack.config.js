@@ -1,9 +1,10 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
+var nodeExternals = require('webpack-node-externals');
 const webpack = require("webpack");
 const path = require('path');
 
-module.exports = {
+module.exports = [{
     entry: {
         'app': 'app.tsx',
     },
@@ -42,6 +43,7 @@ module.exports = {
         modules: [
             path.resolve(__dirname, "client"),
             path.resolve(__dirname, "client/src"),
+            path.resolve(__dirname, "shared"),
             "node_modules"
         ],
         extensions: ['.tsx', '.ts', '.js']
@@ -58,6 +60,39 @@ module.exports = {
         }),
         new ExtractTextPlugin("styles.css"),
     ],
-    devtool: 'source-map'
+    devtool: 'inline-source-map'
 
-};
+},{
+    entry: {
+        'app': 'server.ts',
+    },
+    target: "node",
+    node: {
+        console: true,
+    },
+    module: {
+        rules: [{
+                test: /\.ts$/,
+                use: 'ts-loader',
+                exclude: /node_modules/
+            },
+        ]
+    },
+    resolve: {
+        modules: [
+            path.resolve(__dirname, "server"),
+            path.resolve(__dirname, "shared"),
+            "node_modules"
+        ],
+        extensions: [ '.ts', '.js']
+    },
+    output: {
+        filename: 'server.js',
+        path: path.resolve(__dirname, 'dist-server'),
+        libraryTarget: "var",
+        library: "app"
+    },
+    externals: [nodeExternals()],
+    devtool: 'inline-source-map'
+
+}];

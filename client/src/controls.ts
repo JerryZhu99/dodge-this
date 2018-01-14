@@ -1,7 +1,7 @@
 import * as Keyboard from "keyboard";
 
 import {app, stage, player, background} from "game"
-import { Vector } from "math_utils";
+import { Vector } from "./../../shared/math-utils";
 
 var keyW = Keyboard.key(Keyboard.keyCode("W"));
 var keyA = Keyboard.key(Keyboard.keyCode("A"));

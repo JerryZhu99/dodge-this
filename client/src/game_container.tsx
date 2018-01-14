@@ -1,8 +1,5 @@
 import * as React from "react";
-
-import Graphics from "graphics";
 import * as Game from "game";
-import { MouseEvent } from "react";
 
 /**
  * The game canvas. 
@@ -14,7 +11,7 @@ export class Canvas extends React.Component<any, any>{
     Game.init(this.canvas);
   }
   render() {
-    return <canvas className={"w-100"} ref={c=>this.canvas = c}
+    return <canvas ref={c=>this.canvas = c}
     //https://stackoverflow.com/a/33924816
     width={this.props.width}
     height={this.props.height}>
@@ -32,10 +29,12 @@ export default class GameContainer extends React.Component<any, any> {
   }
 
   render() {
-    return <div className="container-fluid">
+    return <div className="container">
       <h1>Text</h1>
       <div className={"row"}>
-        <Canvas width="1600" height="900"></Canvas>
+        <div className="col">
+          <Canvas width="1600" height="900"></Canvas>
+        </div>
       </div>
     </div>;
   }

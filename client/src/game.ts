@@ -1,16 +1,20 @@
 import { Point, Application, Container, Rectangle, Sprite, Graphics } from "pixi.js";
 
-import Time from "time";
-import Player from "player";
+import PlayerObject from "player-object";
 
 import * as Controls from "controls";  
-import Projectile from "projectile";
+import ProjectileObject from "projectile-object";
+import { Vector } from "../../shared/math-utils";
+
+import State from "./../../shared/state";
+import ClientState from "./client-state";
 
 export var app: Application;
 export var background: Container;
 export var stage: Container;
-export var player: Player;
-export var projectiles: Container;
+
+export var player: PlayerObject;
+export var state = new ClientState();
 
 export function init(canvas: HTMLCanvasElement) {
     app = new PIXI.Application({
@@ -29,15 +33,13 @@ export function init(canvas: HTMLCanvasElement) {
     app.stage.addChild(stage);
     
     Controls.init();
-
-    player = new Player(new Point(0, 0));
-    projectiles = new Container();
-    stage.addChild(player);
-    stage.addChild(projectiles);
+    state.init();
+    player = new PlayerObject(Vector.zero);
+    state.addPlayer(player);
     app.ticker.add(Controls.update);
     app.ticker.add(player.update.bind(player));
     app.ticker.add(function(deltaTime){
-        projectiles.children.forEach((e:Projectile)=>e.update(deltaTime))
+        state.projectiles.forEach(function(e:ProjectileObject){e.update(deltaTime)})
     })
 }
 

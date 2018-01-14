@@ -1,14 +1,17 @@
-import { Point, PointLike } from "pixi.js";
 
-export class Vector extends Point{
-    constructor(p: PointLike){
-        super(p.x, p.y);
+
+export class Vector{
+    x: number;
+    y: number;
+    constructor(p: {x: number, y:number}){
+        this.x = p.x;
+        this.y = p.y;
     }
     clone(){
-        return new Vector(super.clone());
+        return new Vector(this);
     }
     static coords(x: number, y:number){
-        return new Vector(new Point(x,y));
+        return new Vector({x:x, y:y});
     }
     /**
      * A zero vector.
@@ -16,15 +19,15 @@ export class Vector extends Point{
     static get zero(){
         return Vector.coords(0,0);
     }
-    static add(a: Point, b: Point){
-        return new Vector(a).add(b);
+    static add(a: Vector, b: Vector){
+        return (new Vector(a)).add(b);
     }
-    add(v: Point){
+    add(v: Vector){
         this.x += v.x;
         this.y += v.y;
         return this;
     }
-    sub(v: Point){
+    sub(v: Vector){
         this.x -= v.x;
         this.y -= v.y;
         return this;
