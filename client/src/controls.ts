@@ -31,12 +31,12 @@ export function init(){
     app.view.ondragover = function(e){e.preventDefault(); return false;};
     app.view.ondrop = function(e){e.preventDefault(); return false;};
     app.view.oncontextmenu = function(e){e.preventDefault(); return false;};
-    background.addListener("click", function(event: PIXI.interaction.InteractionEvent){
+    background.addListener("mousedown", function(event: PIXI.interaction.InteractionEvent){
         player.attack(event.data.getLocalPosition(stage));
         event.stopPropagation();
         event.data.originalEvent.preventDefault();
     });
-    background.addListener("rightclick", function(event: PIXI.interaction.InteractionEvent){
+    background.addListener("rightdown", function(event: PIXI.interaction.InteractionEvent){
         player.attack(event.data.getLocalPosition(stage));
         event.stopPropagation();
         event.data.originalEvent.preventDefault();

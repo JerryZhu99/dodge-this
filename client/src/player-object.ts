@@ -3,8 +3,16 @@ import { Vector } from "./../../shared/math-utils";
 import Projectile from "projectile-object";
 import Player from "../../shared/player";
 
+/**
+ * THe client representation of a player.
+ */
 export default class PlayerObject extends Player{
+    
+    /**
+     * The player's object to display.
+     */
     display: Container;
+
     constructor(position: Vector){
         super(position);
         this.display = new Container();
@@ -15,6 +23,7 @@ export default class PlayerObject extends Player{
         graphics.endFill();
         this.display.addChild(graphics);
     }
+    
     update(deltaTime: number){
         super.update(deltaTime);
         this.display.position.set(this.position.x, this.position.y);

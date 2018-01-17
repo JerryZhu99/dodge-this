@@ -8,3 +8,4 @@ import GameContainer from "src/game_container";
 
 render(<GameContainer name="test"/>, document.getElementById('view'));
 
+export * from "./src/game";

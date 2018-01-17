@@ -29,9 +29,7 @@ export default class ProjectileObject extends Projectile{
         this.drawTrail();
         this.drawLead();
     }
-    destroy(){
-        super.destroy();
-    }
+
     drawTrail(){
         let p = this.position;
         let g = this.trail;
@@ -45,6 +43,7 @@ export default class ProjectileObject extends Projectile{
         this.trailPoints.unshift(new Vector(p));
         if(this.trailPoints.length > 10) this.trailPoints.pop();
     }
+    
     drawLead(){
         let p = this.position;
         let g = this.lead;
