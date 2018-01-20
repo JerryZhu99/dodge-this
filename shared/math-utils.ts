@@ -34,15 +34,19 @@ export class Vector extends Coord{
     static get zero(){
         return Vector.coords(0,0);
     }
-    static add(a: Vector, b: Vector){
-        return a.clone().add(b);
-    }
-    add(v: Vector){
+
+    /**
+     * Adds the given coordinates to this vector.  
+     */
+    add(v: Coord){
         this.x += v.x;
         this.y += v.y;
         return this;
     }
-    sub(v: Vector){
+    /**
+     * Subtracts the given coordinates to this vector.  
+     */
+    sub(v: Coord){
         this.x -= v.x;
         this.y -= v.y;
         return this;
@@ -64,12 +68,13 @@ export class Vector extends Coord{
     scaled(s: number){
         return this.clone().scale(s);
     }
+    
     /**
      * Sets the length of this vector.
      * @param len 
      */
     length(len: number){
-        return this.scale(len/this.magnitude);
+        return this.magnitude == 0 ? this : this.scale(len/this.magnitude);
     }
 
     /**

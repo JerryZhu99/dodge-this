@@ -44,19 +44,19 @@ export function init(){
 }
 
 export function update(deltaTime: number){
-    player.velocity.scale(Math.pow(0.96, deltaTime));
+    let direction = Vector.zero;
     if(keyW.isDown){
-        player.velocity.y -= 10 * deltaTime;
+        direction.y -= 10 * deltaTime;
     }
     if(keyA.isDown){
-        player.velocity.x -= 10 * deltaTime;
+        direction.x -= 10 * deltaTime;
     }
     if(keyS.isDown){
-        player.velocity.y += 10 * deltaTime;
+        direction.y += 10 * deltaTime;
     }
     if(keyD.isDown){
-        player.velocity.x += 10 * deltaTime;
+        direction.x += 10 * deltaTime;
     }
-    if(player.velocity.magnitude > 10)player.velocity.length(10);
+    player.move(direction);
 }
 
