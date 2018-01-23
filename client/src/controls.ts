@@ -57,6 +57,6 @@ export function update(deltaTime: number){
     if(keyD.isDown){
         direction.x += 10 * deltaTime;
     }
-    player.move(direction);
+    if(direction.magnitude != 0)player.move(direction);
 }
 

@@ -1,13 +1,15 @@
 import { Point, Container, Graphics, PointLike, DisplayObject } from "pixi.js";
-import { Vector } from "./../../shared/math-utils";
+import { Vector, Coord } from "./../../shared/math-utils";
 import Projectile from "projectile-object";
 import Player from "../../shared/player";
+import Network from "client-network"
 
 /**
  * THe client representation of a player.
  */
 export default class PlayerObject extends Player{
     
+    isLocalPlayer: boolean;
     /**
      * The player's object to display.
      */
@@ -27,6 +29,20 @@ export default class PlayerObject extends Player{
     update(deltaTime: number){
         super.update(deltaTime);
         this.display.position.set(this.position.x, this.position.y);
+    }
+
+    move(dir: Coord){
+        super.move(dir);
+        if(this.isLocalPlayer){
+            Network.send("player move", dir);
+        }
+    }
+
+    attack(p: Coord){
+        super.attack(p);
+        if(this.isLocalPlayer){
+            Network.send("player attack", p);
+        }
     }
 
 }

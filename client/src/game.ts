@@ -35,6 +35,7 @@ export function init(canvas: HTMLCanvasElement) {
     Controls.init();
     state.init();
     player = new PlayerObject(Vector.zero);
+    player.isLocalPlayer = true;
     state.addPlayer(player);
     app.ticker.add(Controls.update);
     app.ticker.add(player.update.bind(player));
