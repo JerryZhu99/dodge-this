@@ -44,6 +44,7 @@ module.exports = [{
             path.resolve(__dirname, "client"),
             path.resolve(__dirname, "client/src"),
             path.resolve(__dirname, "shared"),
+            path.resolve(__dirname),
             "node_modules"
         ],
         extensions: ['.tsx', '.ts', '.js']
@@ -82,7 +83,8 @@ module.exports = [{
         modules: [
             path.resolve(__dirname, "server"),
             path.resolve(__dirname, "shared"),
-            "node_modules"
+            path.resolve(__dirname),
+            path.resolve("node_modules")
         ],
         extensions: [ '.ts', '.js']
     },

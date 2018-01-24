@@ -1,7 +1,7 @@
 import { Point, Container, Graphics, PointLike, DisplayObject } from "pixi.js";
-import { Vector, Coord } from "./../../shared/math-utils";
+import { Vector, Coord } from "shared/math-utils";
 import Projectile from "projectile-object";
-import Player from "../../shared/player";
+import Player from "shared/player";
 import Network from "client-network"
 
 /**

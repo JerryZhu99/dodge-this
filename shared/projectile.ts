@@ -28,7 +28,7 @@ export default class Projectile implements NetworkObject{
         this.position = p;
         this.velocity = v;
         this.time = 0;
-        this.lifeTime = 200;
+        this.lifeTime = 2;
     }
     update(deltaTime: number){
         this.time += deltaTime;

@@ -1,8 +1,12 @@
 const socket = new WebSocket(`ws://${location.host}`)
 
 export default class Network{
+    
     static on(event: string, handler: (data: any)=>(any)){
-        socket.addEventListener(event, handler);
+        socket.addEventListener("message", (message)=>{
+            let data = JSON.parse(message.data);
+            if(data.event == event)handler(data.data);
+        });
     }
 
     static send(event: string, data: any){
@@ -10,7 +14,6 @@ export default class Network{
             console.error("not open");
             return;
         }
-        console.log(event, data);
         socket.send(JSON.stringify({event: event, data: data}));
     }
 }

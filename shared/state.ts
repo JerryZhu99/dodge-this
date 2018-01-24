@@ -1,15 +1,15 @@
 import Projectile from "projectile";
-import Player from "player";
+import Player from "./player";
 import {
-    Vector
+    Vector, Coord
 } from "./math-utils";
 
 /**
  * Describes the state of the game.
  */
 export default class State {
-    players: Player[];
-    projectiles: Projectile[];
+    players: Array<Player>;
+    projectiles: Array<Projectile>;
 
     constructor() {
         this.players = new Array < Player > ();
@@ -40,6 +40,9 @@ export default class State {
         this.projectiles.splice(this.projectiles.indexOf(p), 1);
     }
 
+    createPlayer(p: Coord){
+        return new Player(p);
+    }
     /**
      * Adds a player to the game state.
      * @param p The player to add.
@@ -77,32 +80,40 @@ export default class State {
             this.players.every((y: Player) => (x.id != y.id))
         ));
         let removedPlayers = this.players.filter((x: Player) => (
-            this.players.every((y: Player) => (x.id != y.id))
+            data.players.every((y: Player) => (x.id != y.id))
         ));
 
         for (const player of removedPlayers) {
             this.removePlayer(player);
         }
         for (const player of this.players) {
-            this.players.forEach((x: Player) => x.deserialize(data.players.find((y: Player) => y.id == x.id)));
+            let newPlayerData = data.players.find((y: Player) => y.id == player.id);
+            if(newPlayerData) player.deserialize(newPlayerData);
         }
-        for (const player of newPlayers) {
+        for (const newPlayer of newPlayers) {
+            let player = this.createPlayer(newPlayer.position);
+            player.id = newPlayer.id;
             this.addPlayer(player);
         }
         let newProjectiles = data.projectiles.filter((x: Projectile) => (
             this.projectiles.every((y: Projectile) => (x.id != y.id))
         ));
-        let removedProjectiles = this.projectiles.filter((x: Projectile) => (this.projectiles.every(
+        let removedProjectiles = this.projectiles.filter((x: Projectile) => (data.projectiles.every(
             (y: Projectile) => (x.id != y.id))));
 
-        for (const projectiles of removedProjectiles) {
-            this.removeProjectile(projectiles);
+        for (const projectile of removedProjectiles) {
+            this.removeProjectile(projectile);
         }
-        for (const projectiles of this.projectiles) {
-            this.projectiles.forEach((x: Projectile) => x.deserialize(data.projectiles.find((y: Projectile) => y.id == x.id)));
+
+        for (const projectile of this.projectiles) {
+            let newProjectileData = data.projectiles.find((y: Projectile) => y.id == projectile.id);
+            if(newProjectileData) projectile.deserialize(newProjectileData);
         }
-        for (const projectiles of newProjectiles) {
-            this.addProjectile(projectiles);
+
+        for (const newProjectile of newProjectiles) {
+            let projectile = this.createProjectile(new Vector(newProjectile.position), new Vector(newProjectile.velocity));
+            projectile.id = newProjectile.id;
+            this.addProjectile(projectile);
         }
     }
 }

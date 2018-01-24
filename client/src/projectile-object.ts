@@ -1,6 +1,6 @@
 import { Container, Graphics, Point, PointLike } from "pixi.js";
-import { Vector } from "./../../shared/math-utils";
-import Projectile from "./../../shared/projectile";
+import { Vector } from "shared/math-utils";
+import Projectile from "shared/projectile";
 
 export default class ProjectileObject extends Projectile{
     display: Container;

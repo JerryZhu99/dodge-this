@@ -1,7 +1,7 @@
 import * as Keyboard from "keyboard";
 
-import {app, stage, player, background} from "game"
-import { Vector } from "./../../shared/math-utils";
+import {app, stage, state, background} from "game"
+import { Vector } from "shared/math-utils";
 
 var keyW = Keyboard.key(Keyboard.keyCode("W"));
 var keyA = Keyboard.key(Keyboard.keyCode("A"));
@@ -32,12 +32,12 @@ export function init(){
     app.view.ondrop = function(e){e.preventDefault(); return false;};
     app.view.oncontextmenu = function(e){e.preventDefault(); return false;};
     background.addListener("mousedown", function(event: PIXI.interaction.InteractionEvent){
-        player.attack(event.data.getLocalPosition(stage));
+        if(state.localPlayer)state.localPlayer.attack(event.data.getLocalPosition(stage));
         event.stopPropagation();
         event.data.originalEvent.preventDefault();
     });
     background.addListener("rightdown", function(event: PIXI.interaction.InteractionEvent){
-        player.attack(event.data.getLocalPosition(stage));
+        if(state.localPlayer)state.localPlayer.attack(event.data.getLocalPosition(stage));
         event.stopPropagation();
         event.data.originalEvent.preventDefault();
     });
@@ -57,6 +57,6 @@ export function update(deltaTime: number){
     if(keyD.isDown){
         direction.x += 10 * deltaTime;
     }
-    if(direction.magnitude != 0)player.move(direction);
+    if(direction.magnitude != 0 && state.localPlayer)state.localPlayer.move(direction);
 }
 

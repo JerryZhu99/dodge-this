@@ -4,10 +4,10 @@ import PlayerObject from "player-object";
 
 import * as Controls from "controls";  
 import ProjectileObject from "projectile-object";
-import { Vector } from "../../shared/math-utils";
+import { Vector } from "shared/math-utils";
 
-import State from "./../../shared/state";
-import ClientState from "./client-state";
+import State from "shared/state";
+import ClientState from "client-state";
 
 export var app: Application;
 export var background: Container;
@@ -34,14 +34,11 @@ export function init(canvas: HTMLCanvasElement) {
     
     Controls.init();
     state.init();
-    player = new PlayerObject(Vector.zero);
-    player.isLocalPlayer = true;
-    state.addPlayer(player);
+    
+
+    app.ticker.speed = 1 / 60.0;
     app.ticker.add(Controls.update);
-    app.ticker.add(player.update.bind(player));
-    app.ticker.add(function(deltaTime){
-        state.projectiles.forEach(function(e:ProjectileObject){e.update(deltaTime)})
-    })
+    app.ticker.add((d:number)=>{(state.update(d))})
 }
 
 

@@ -25,17 +25,17 @@ export default class Player implements NetworkObject{
     constructor(position: Coord) {
         this.position = new Vector(position);
         this.velocity = Vector.zero;
-        this.maxSpeed = 10;
-        this.maxAcceleration = 10;
+        this.maxSpeed = 500;
+        this.maxAcceleration = 500;
     }
     /**
      * Updates the player.
      * @param deltaTime 
      */
     update(deltaTime: number) {
-        this.velocity.scale(Math.pow(0.96, deltaTime));
         if(this.velocity.magnitude > this.maxSpeed) this.velocity.magnitude = this.maxSpeed;
         this.position = new Vector(this.position).add(this.velocity.scaled(deltaTime));
+        this.velocity.scale(Math.pow(0.96, deltaTime*60));
     }
 
     /**
@@ -44,14 +44,14 @@ export default class Player implements NetworkObject{
      * @param dy 
      */
     move(dir: Coord){
-        this.velocity.add(new Vector(dir).length(10));
+        this.velocity.add(new Vector(dir).length(500));
     }
     /**
-     * Attacks a target location.
+     * Attacks a target location.a
      * @param p the target location.
      */
     attack(p: Coord) {
-        let pvelocity = new Vector(p).sub(this.position).length(15);
+        let pvelocity = new Vector(p).sub(this.position).length(900);
         this.state.addProjectile(this.state.createProjectile(this.position, pvelocity))
     }
 
