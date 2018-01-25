@@ -7,6 +7,9 @@ import { NetworkObject } from "./network";
  * 
  */
 export default class Projectile implements NetworkObject{
+    
+    radius = 5;
+
     id: string;
     /**
      * The parent state.

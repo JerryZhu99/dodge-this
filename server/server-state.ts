@@ -1,7 +1,7 @@
 import * as uuid from "uuid/v4";
 import State from "shared/state";
 import ServerPlayer from "server-player";
-import Projectile from "../shared/projectile";
+import Projectile from "shared/projectile";
 
 /**
  * The server-side state of a game.
@@ -20,7 +20,7 @@ export default class ServerState extends State{
     update(deltaTime: number){
         super.update(deltaTime);
         for(let player of this.players){
-            player.send("state", this.serialize());
+            player.socket.send("state", this.serialize());
         }
     }
 }

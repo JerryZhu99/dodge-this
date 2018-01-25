@@ -16,7 +16,7 @@ export default class ProjectileObject extends Projectile{
         let graphics = new Graphics();
         graphics.lineStyle(0);
         graphics.beginFill(0x00A5FF, 0.9);
-        graphics.drawCircle(0,0,5);
+        graphics.drawCircle(0,0,this.radius);
         graphics.endFill();
         this.display.addChild(graphics);
         this.display.addChild(this.lead);
@@ -37,7 +37,7 @@ export default class ProjectileObject extends Projectile{
         g.moveTo(0, 0);
         for(let i = 0; i< this.trailPoints.length; i++){
             let q = this.trailPoints[i];
-            g.lineStyle((10 - i) / 10 * 5, 0x0065FF, (10 - i) / 10);
+            g.lineStyle((10 - i) / 10 * this.radius, 0x0065FF, (10 - i) / 10);
             g.lineTo(q.x - p.x, q.y - p.y);
         }
         this.trailPoints.unshift(new Vector(p));

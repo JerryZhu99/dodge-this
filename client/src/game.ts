@@ -34,7 +34,6 @@ export function init(canvas: HTMLCanvasElement) {
     
     Controls.init();
     state.init();
-    
 
     app.ticker.speed = 1 / 60.0;
     app.ticker.add(Controls.update);

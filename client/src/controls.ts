@@ -46,17 +46,19 @@ export function init(){
 export function update(deltaTime: number){
     let direction = Vector.zero;
     if(keyW.isDown){
-        direction.y -= 10 * deltaTime;
+        direction.y -= 1;
     }
     if(keyA.isDown){
-        direction.x -= 10 * deltaTime;
+        direction.x -= 1;
     }
     if(keyS.isDown){
-        direction.y += 10 * deltaTime;
+        direction.y += 1;
     }
     if(keyD.isDown){
-        direction.x += 10 * deltaTime;
+        direction.x += 1;
     }
-    if(direction.magnitude != 0 && state.localPlayer)state.localPlayer.move(direction);
+    if(direction.magnitude != 0 && state.localPlayer){
+        state.localPlayer.move(direction)
+    }
 }
 

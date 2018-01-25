@@ -13,15 +13,25 @@ import { NetworkObject } from "./network";
  * Represents a player.
  */
 export default class Player implements NetworkObject{
+    
+    radius = 25;
+    speedDecay = 0.96;
+
+    projectileSpeed = 900;
+
+    maxAcceleration: number;
+    maxSpeed: number;
+
+    id: string;
+
     /**
      * The parent state of the player.
      */
-    id: string;
     state: State;
-    maxAcceleration: number;
     velocity: Vector;
-    maxSpeed: number;
     position: Vector;
+
+
     constructor(position: Coord) {
         this.position = new Vector(position);
         this.velocity = Vector.zero;
@@ -35,7 +45,7 @@ export default class Player implements NetworkObject{
     update(deltaTime: number) {
         if(this.velocity.magnitude > this.maxSpeed) this.velocity.magnitude = this.maxSpeed;
         this.position = new Vector(this.position).add(this.velocity.scaled(deltaTime));
-        this.velocity.scale(Math.pow(0.96, deltaTime*60));
+        this.velocity.scale(Math.pow(this.speedDecay, deltaTime*60));
     }
 
     /**
@@ -44,14 +54,14 @@ export default class Player implements NetworkObject{
      * @param dy 
      */
     move(dir: Coord){
-        this.velocity.add(new Vector(dir).length(500));
+        this.velocity.add(new Vector(dir).length(this.maxSpeed));
     }
     /**
      * Attacks a target location.a
      * @param p the target location.
      */
     attack(p: Coord) {
-        let pvelocity = new Vector(p).sub(this.position).length(900);
+        let pvelocity = new Vector(p).sub(this.position).length(this.projectileSpeed);
         this.state.addProjectile(this.state.createProjectile(this.position, pvelocity))
     }
 
