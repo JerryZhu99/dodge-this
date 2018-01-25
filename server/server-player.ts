@@ -8,8 +8,8 @@ import SocketWrapper from "shared/socket-wrapper";
  */
 export default class ServerPlayer extends Player{
     socket: SocketWrapper;
-    constructor(position: Coord, socket: SocketWrapper){
-        super(position);
+    constructor(position: Coord, team: number, socket: SocketWrapper){
+        super(position, team);
         this.socket = socket;
     }
 }

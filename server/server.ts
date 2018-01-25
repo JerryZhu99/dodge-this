@@ -27,10 +27,10 @@ const wss = new WebSocket.Server({
 wss.on('connection', function connection(ws, req) {
     let socket = new SocketWrapper(ws);
     console.log("connection");
-    let player = new ServerPlayer(Vector.zero, socket);
+    let player = new ServerPlayer(Vector.zero, gameState.players.length + 1, socket);
     player.id = uuid();
     gameState.addPlayer(player);
-    socket.send("local player", player.id);
+    socket.send("local player", player.serialize());
     ws.on('message', (dataObject: string) => {
         let dataParsed: {
             event: string,

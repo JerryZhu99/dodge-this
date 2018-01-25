@@ -3,6 +3,7 @@ import { Vector, Coord } from "shared/math-utils";
 import Projectile from "projectile-object";
 import Player from "shared/player";
 import { state } from "app";
+import { teamColours } from "../../shared/teams";
 
 /**
  * THe client representation of a player.
@@ -15,12 +16,12 @@ export default class PlayerObject extends Player{
      */
     display: Container;
 
-    constructor(position: Vector){
-        super(position);
+    constructor(position: Vector, team: number = 0){
+        super(position, team);
         this.display = new Container();
         let graphics = new Graphics();
         graphics.lineStyle(0);
-        graphics.beginFill(0x0065FF, 0.9);
+        graphics.beginFill(teamColours[this.team], 0.9);
         graphics.drawCircle(0,0, this.radius);
         graphics.endFill();
         this.display.addChild(graphics);

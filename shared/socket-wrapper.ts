@@ -9,7 +9,6 @@ export default class SocketWrapper{
     }
 
     on(event: string, handler: (data: any)=>(any)){
-        console.log("receiving", event);
         this.socket.addEventListener("message", (message: any)=>{
             let data = JSON.parse(message.data);
             if(data.event == event)handler(data.data);

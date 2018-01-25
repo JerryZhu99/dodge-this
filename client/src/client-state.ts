@@ -29,23 +29,23 @@ export default class ClientState extends State {
 
         this.socket.on("state", this.deserialize.bind(this));
         let that = this;
-        this.socket.on("local player", function (id: string) {
-            that.localPlayer = that.players.find((p: PlayerObject) => (p.id == id));
+        this.socket.on("local player", function (player: any) {
+            that.localPlayer = that.players.find((p: PlayerObject) => (p.id == player.id));
             if (!that.localPlayer) {
-                that.localPlayer = new PlayerObject(Vector.zero);
-                that.localPlayer.id = id;
+                that.localPlayer = that.createPlayer(player.position, player.team);
+                that.localPlayer.id = player.id;
+                
                 that.addPlayer(that.localPlayer);
             }
-
             that.localPlayer.isLocalPlayer = true;
         })
     }
     init() {
-        stage.addChild(this.playersContainer);
         stage.addChild(this.projectilesContainer);
+        stage.addChild(this.playersContainer);
     }
-    createPlayer(p: Coord) {
-        return new PlayerObject(new Vector(p));
+    createPlayer(p: Coord, team: number) {
+        return new PlayerObject(new Vector(p), team);
     }
     addPlayer(p: PlayerObject) {
         super.addPlayer(p);
@@ -56,8 +56,8 @@ export default class ClientState extends State {
         this.playersContainer.removeChild(p.display);
     }
 
-    createProjectile(p: Vector, v: Vector) {
-        return new ProjectileObject(p, v);
+    createProjectile(p: Vector, v: Vector, team: number) {
+        return new ProjectileObject(p, v, team);
     }
 
     addProjectile(p: ProjectileObject) {

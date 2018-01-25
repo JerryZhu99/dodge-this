@@ -23,8 +23,8 @@ export default class State {
     /**
      * Instantiates a new projectile.
      */
-    createProjectile(p: Vector, v: Vector) {
-        return new Projectile(p, v);
+    createProjectile(p: Vector, v: Vector, team: number) {
+        return new Projectile(p, v, team);
     }
 
     /**
@@ -44,8 +44,8 @@ export default class State {
         this.projectiles.splice(this.projectiles.indexOf(p), 1);
     }
 
-    createPlayer(p: Coord) {
-        return new Player(p);
+    createPlayer(p: Coord, team: number) {
+        return new Player(p, team);
     }
     /**
      * Adds a player to the game state.
@@ -118,8 +118,9 @@ export default class State {
             if (newPlayerData) player.deserialize(newPlayerData);
         }
         for (const newPlayer of newPlayers) {
-            let player = this.createPlayer(newPlayer.position);
+            let player = this.createPlayer(newPlayer.position, newPlayer.team);
             player.id = newPlayer.id;
+            player.deserialize(newPlayer);
             this.addPlayer(player);
         }
         let newProjectiles = data.projectiles.filter((x: Projectile) => (
@@ -138,7 +139,8 @@ export default class State {
         }
 
         for (const newProjectile of newProjectiles) {
-            let projectile = this.createProjectile(new Vector(newProjectile.position), new Vector(newProjectile.velocity));
+            let projectile = this.createProjectile(new Vector(newProjectile.position), new Vector(newProjectile.velocity), newProjectile.team);
+            projectile.deserialize(newProjectile);
             projectile.id = newProjectile.id;
             this.addProjectile(projectile);
         }
