@@ -8,12 +8,16 @@ import {
  * Describes the state of the game.
  */
 export default class State {
+
+    mapWidth = 1600.0 * 10 / 9;
+    mapHeight = 1000.0;
+
     players: Array<Player>;
     projectiles: Array<Projectile>;
 
     constructor() {
-        this.players = new Array < Player > ();
-        this.projectiles = new Array < Projectile > ();
+        this.players = new Array<Player>();
+        this.projectiles = new Array<Projectile>();
     }
 
     /**
@@ -40,7 +44,7 @@ export default class State {
         this.projectiles.splice(this.projectiles.indexOf(p), 1);
     }
 
-    createPlayer(p: Coord){
+    createPlayer(p: Coord) {
         return new Player(p);
     }
     /**
@@ -67,6 +71,29 @@ export default class State {
     update(deltaTime: number) {
         this.players.forEach(e => e.update(deltaTime));
         this.projectiles.forEach(e => e.update(deltaTime));
+
+        this.constrainPlayerPositions();
+    }
+
+    private constrainPlayerPositions() {
+        for (let player of this.players) {
+            if (player.position.x - player.radius < -this.mapWidth / 2) {
+                player.position.x = player.radius - this.mapWidth / 2;
+                player.velocity.x = Math.abs(player.velocity.x);
+            }
+            else if (player.position.x + player.radius > this.mapWidth / 2) {
+                player.position.x = this.mapWidth / 2 - player.radius;
+                player.velocity.x = -Math.abs(player.velocity.x);
+            }
+            if (player.position.y - player.radius < -this.mapHeight / 2) {
+                player.position.y = player.radius - this.mapHeight / 2;
+                player.velocity.y = Math.abs(player.velocity.y);
+            }
+            else if (player.position.y + player.radius > this.mapHeight / 2) {
+                player.position.y = this.mapHeight / 2 - player.radius;
+                player.velocity.y = -Math.abs(player.velocity.y);
+            }
+        }
     }
 
     serialize() {
@@ -88,7 +115,7 @@ export default class State {
         }
         for (const player of this.players) {
             let newPlayerData = data.players.find((y: Player) => y.id == player.id);
-            if(newPlayerData) player.deserialize(newPlayerData);
+            if (newPlayerData) player.deserialize(newPlayerData);
         }
         for (const newPlayer of newPlayers) {
             let player = this.createPlayer(newPlayer.position);
@@ -107,7 +134,7 @@ export default class State {
 
         for (const projectile of this.projectiles) {
             let newProjectileData = data.projectiles.find((y: Projectile) => y.id == projectile.id);
-            if(newProjectileData) projectile.deserialize(newProjectileData);
+            if (newProjectileData) projectile.deserialize(newProjectileData);
         }
 
         for (const newProjectile of newProjectiles) {
