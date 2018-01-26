@@ -1,6 +1,6 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
-var nodeExternals = require('webpack-node-externals');
+const nodeExternals = require('webpack-node-externals');
 const webpack = require("webpack");
 const path = require('path');
 
