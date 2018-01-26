@@ -1,13 +1,7 @@
-import {
-    Vector,
-    Coord
-} from "math-utils";
+import { Vector, Coord } from "math-utils";
 import Projectile from "projectile";
 import State from "state";
-import {
-    PointLike
-} from "pixi.js";
-import { NetworkObject } from "./network";
+import { NetworkObject } from "network";
 
 /**
  * Represents a player.

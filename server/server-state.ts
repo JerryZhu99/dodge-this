@@ -6,20 +6,20 @@ import Projectile from "shared/projectile";
 /**
  * The server-side state of a game.
  */
-export default class ServerState extends State{
+export default class ServerState extends State {
     players: ServerPlayer[];
-    constructor(){
+    constructor() {
         super();
     }
 
-    addProjectile(p: Projectile){
+    addProjectile(p: Projectile) {
         super.addProjectile(p);
         p.id = uuid();
     }
 
-    update(deltaTime: number){
+    update(deltaTime: number) {
         super.update(deltaTime);
-        for(let player of this.players){
+        for (let player of this.players) {
             player.socket.send("state", this.serialize());
         }
     }

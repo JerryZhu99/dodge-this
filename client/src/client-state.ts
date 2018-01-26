@@ -34,7 +34,7 @@ export default class ClientState extends State {
             if (!that.localPlayer) {
                 that.localPlayer = that.createPlayer(player.position, player.team);
                 that.localPlayer.id = player.id;
-                
+
                 that.addPlayer(that.localPlayer);
             }
             that.localPlayer.isLocalPlayer = true;

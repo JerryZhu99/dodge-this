@@ -1,8 +1,6 @@
 import Projectile from "projectile";
-import Player from "./player";
-import {
-    Vector, Coord
-} from "./math-utils";
+import Player from "player";
+import { Vector, Coord } from "math-utils";
 
 /**
  * Describes the state of the game.

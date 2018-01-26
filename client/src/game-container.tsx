@@ -7,14 +7,14 @@ import * as Game from "game";
  */
 export class Canvas extends React.Component<any, any>{
   canvas: HTMLCanvasElement;
-  componentDidMount(){
+  componentDidMount() {
     Game.init(this.canvas);
   }
   render() {
-    return <canvas ref={c=>this.canvas = c}
-    //https://stackoverflow.com/a/33924816
-    width={this.props.width}
-    height={this.props.height}>
+    return <canvas ref={c => this.canvas = c}
+      //https://stackoverflow.com/a/33924816
+      width={this.props.width}
+      height={this.props.height}>
     </canvas>
   }
 

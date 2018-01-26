@@ -1,7 +1,7 @@
-import { Container, Graphics, Point, PointLike } from "pixi.js";
+import { Container, Graphics } from "pixi.js";
 import { Vector } from "shared/math-utils";
 import Projectile from "shared/projectile";
-import { teamColours } from "../../shared/teams";
+import { teamColours } from "shared/teams";
 
 export default class ProjectileObject extends Projectile {
     display: Container;

@@ -1,13 +1,13 @@
 import { Vector, Coord } from "math-utils";
 import State from "state";
-import { NetworkObject } from "./network";
+import { NetworkObject } from "network";
 
 /**
  * A projectile.
  * 
  */
-export default class Projectile implements NetworkObject{
-    
+export default class Projectile implements NetworkObject {
+
     radius = 5;
 
     id: string;
@@ -17,7 +17,7 @@ export default class Projectile implements NetworkObject{
      * The parent state.
      */
     state: State;
-    
+
     position: Vector;
     velocity: Vector;
     /**
@@ -29,24 +29,24 @@ export default class Projectile implements NetworkObject{
      */
     time: number;
 
-    constructor(p: Vector, v: Vector, team: number = 0){
+    constructor(p: Vector, v: Vector, team: number = 0) {
         this.position = p;
         this.velocity = v;
         this.time = 0;
         this.lifeTime = 4;
         this.team = team;
     }
-    update(deltaTime: number){
+    update(deltaTime: number) {
         this.time += deltaTime;
         this.position.add(this.velocity.scaled(deltaTime));
-        if(this.time >= this.lifeTime){
+        if (this.time >= this.lifeTime) {
             this.destroy();
         }
     }
     /**
      * Removes the projectile from the state.
      */
-    destroy(){
+    destroy() {
         this.state.removeProjectile(this);
     }
 
@@ -64,6 +64,6 @@ export default class Projectile implements NetworkObject{
         this.time = data.time;
         this.team = data.team;
         this.position = new Vector(data.position),
-        this.velocity = new Vector(data.velocity)
+            this.velocity = new Vector(data.velocity)
     }
 }

@@ -2,7 +2,7 @@
 /**
  * Represents a networked object that is synced between client and server.
  */
-export interface NetworkObject{
+export interface NetworkObject {
     /**
      * A unique id.
      */
@@ -12,7 +12,7 @@ export interface NetworkObject{
      * Serializes the object to a form for transmission.
      */
     serialize(): any;
-    
+
     /**
      * Restores the object state from the data.
      */

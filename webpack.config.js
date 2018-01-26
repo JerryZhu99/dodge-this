@@ -63,7 +63,7 @@ module.exports = [{
     ],
     devtool: 'inline-source-map'
 
-},{
+}, {
     entry: {
         'app': 'server.ts',
     },
@@ -73,11 +73,10 @@ module.exports = [{
     },
     module: {
         rules: [{
-                test: /\.ts$/,
-                use: 'ts-loader',
-                exclude: /node_modules/
-            },
-        ]
+            test: /\.ts$/,
+            use: 'ts-loader',
+            exclude: /node_modules/
+        }, ]
     },
     resolve: {
         modules: [
@@ -86,7 +85,7 @@ module.exports = [{
             path.resolve(__dirname),
             path.resolve("node_modules")
         ],
-        extensions: [ '.ts', '.js']
+        extensions: ['.ts', '.js']
     },
     output: {
         filename: 'server.js',
