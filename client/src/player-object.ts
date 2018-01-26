@@ -39,10 +39,10 @@ export default class PlayerObject extends Player{
         }
     }
 
-    attack(p: Coord){
-        super.attack(p);
+    special(p: Coord){
+        super.special(p);
         if(this.isLocalPlayer){
-            state.socket.send("player attack", p);
+            state.socket.send("special", p);
         }
     }
 

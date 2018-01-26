@@ -51,6 +51,16 @@ export class Vector extends Coord{
         this.y -= v.y;
         return this;
     }
+
+    rotate(angle: number){
+        let rads = angle * Math.PI / 180.0;
+        let x = this.x;
+        let y = this.y;
+        this.x = x * Math.cos(rads) - y * Math.sin(rads); 
+        this.y = x * Math.sin(rads) + y * Math.cos(rads);
+        return this;
+    }
+
     /**
      * Scales this vector by s.
      * @param s 

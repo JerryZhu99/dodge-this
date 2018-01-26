@@ -38,8 +38,11 @@ wss.on('connection', function connection(ws, req) {
         } = JSON.parse(dataObject);
         let event = dataParsed.event;
         let data = dataParsed.data;
-        if(event == "player attack"){
+        if(event == "attack"){
             player.attack(data);
+        }
+        if(event == "special"){
+            player.special(data);
         }
         if(event == "player move"){
             player.move(data);

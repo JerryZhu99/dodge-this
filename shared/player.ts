@@ -14,13 +14,22 @@ import { NetworkObject } from "./network";
  */
 export default class Player implements NetworkObject{
     
-    radius = 25;
-    speedDecay = 0.96;
+    radius = 20;
+    speedDecay = 0.92;
 
     projectileSpeed = 900;
 
     maxAcceleration: number;
     maxSpeed: number;
+
+    target: Coord;
+
+    attacking: boolean;
+    attackTime: number;
+    attackCooldown: number;
+
+    specialTime: number;
+    specialCooldown: number;
 
     id: string;
     team = 0;
@@ -38,6 +47,10 @@ export default class Player implements NetworkObject{
         this.velocity = Vector.zero;
         this.maxSpeed = 500;
         this.maxAcceleration = 500;
+        this.attackTime = 0;
+        this.attackCooldown = 0.05;
+        this.specialTime = 0;
+        this.specialCooldown = 3;
         this.team = team;
     }
     /**
@@ -48,6 +61,8 @@ export default class Player implements NetworkObject{
         if(this.velocity.magnitude > this.maxSpeed) this.velocity.magnitude = this.maxSpeed;
         this.position = new Vector(this.position).add(this.velocity.scaled(deltaTime));
         this.velocity.scale(Math.pow(this.speedDecay, deltaTime*60));
+        this.attackTime = Math.max(this.attackTime - deltaTime, 0);
+        this.specialTime = Math.max(this.specialTime - deltaTime, 0);
     }
 
     /**
@@ -63,22 +78,41 @@ export default class Player implements NetworkObject{
      * @param p the target location.
      */
     attack(p: Coord) {
+        if(this.attackTime != 0) return;
         let pvelocity = new Vector(p).sub(this.position).length(this.projectileSpeed);
-        let projectile = this.state.createProjectile(this.position, pvelocity, this.team);
-        projectile.team = this.team;
-        this.state.addProjectile(projectile)
+        let projectile = this.state.createProjectile(this.position.clone(), pvelocity, this.team);
+        this.state.addProjectile(projectile);
+        this.attackTime = this.attackCooldown;
+    }
+
+    special(p: Coord){
+        if(this.specialTime != 0) return;
+        let velocityCenter = new Vector(p).sub(this.position).length(this.projectileSpeed);
+        const spread = 30;
+        const projectiles = 7;
+        let v = velocityCenter.clone().rotate(- spread / 2);
+        for(let i = 0; i < projectiles; i++){
+            let projectileCenter = this.state.createProjectile(this.position.clone(), v, this.team);
+            this.state.addProjectile(projectileCenter);
+            v = v.clone().rotate(spread / (projectiles - 1)); 
+        }
+        this.specialTime = this.specialCooldown;
     }
 
     serialize() {
         return {
             id: this.id,
             team: this.team,
+            attackTime: this.attackTime,
+            specialTime: this.specialTime,
             position: this.position,
             velocity: this.velocity,
         }
     }
     deserialize(data: any) {
         this.team = data.team;
+        this.attackTime = data.attackTime;
+        this.specialTime = data.specialTime;
         this.position = new Vector(data.position),
         this.velocity = new Vector(data.velocity)
     }

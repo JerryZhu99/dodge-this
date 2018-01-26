@@ -32,12 +32,25 @@ export function init(){
     app.view.ondrop = function(e){e.preventDefault(); return false;};
     app.view.oncontextmenu = function(e){e.preventDefault(); return false;};
     background.addListener("mousedown", function(event: PIXI.interaction.InteractionEvent){
-        if(state.localPlayer)state.localPlayer.attack(event.data.getLocalPosition(stage));
+        if(state.localPlayer)state.localPlayer.attacking = true;
+        state.socket.send("attacking", true);
+        event.stopPropagation();
+        event.data.originalEvent.preventDefault();
+    });
+    background.addListener("mousemove", function(event: PIXI.interaction.InteractionEvent){
+        let mousePosition = event.data.getLocalPosition(stage);
+        if(state.localPlayer)state.localPlayer.target = mousePosition;
+        event.stopPropagation();
+        event.data.originalEvent.preventDefault();
+    });
+    background.addListener("mouseup", function(event: PIXI.interaction.InteractionEvent){
+        if(state.localPlayer)state.localPlayer.attacking = false;
         event.stopPropagation();
         event.data.originalEvent.preventDefault();
     });
     background.addListener("rightdown", function(event: PIXI.interaction.InteractionEvent){
-        if(state.localPlayer)state.localPlayer.attack(event.data.getLocalPosition(stage));
+        if(state.localPlayer)state.localPlayer.special(event.data.getLocalPosition(stage));
+        state.socket.send("special", event.data.getLocalPosition(stage));
         event.stopPropagation();
         event.data.originalEvent.preventDefault();
     });
@@ -59,6 +72,10 @@ export function update(deltaTime: number){
     }
     if(direction.magnitude != 0 && state.localPlayer){
         state.localPlayer.move(direction)
+    }
+    if(state.localPlayer && state.localPlayer.attacking){
+        state.localPlayer.attack(state.localPlayer.target);
+        state.socket.send("attack", state.localPlayer.target);
     }
 }
 

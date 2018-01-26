@@ -22,6 +22,8 @@ export default class ProjectileObject extends Projectile {
         this.display.addChild(graphics);
         this.display.addChild(this.lead);
         this.display.addChild(this.trail);
+        this.display.position.x = this.position.x;
+        this.display.position.y = this.position.y;
     }
     update(deltaTime: number) {
         super.update(deltaTime);
