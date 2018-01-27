@@ -4,9 +4,10 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "dev": "webpack --watch --progress --colors",
+    "build:dev": "webpack --watch --progress --colors",
     "build": "webpack",
     "start": "node dist-server/server.js",
+    "start:dev": "node --inspect dist-server/server.js",
     "test": "webpack --config webpack-test.config.js -w"
   },
   "author": "Jerry Zhu",
