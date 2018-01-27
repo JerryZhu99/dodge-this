@@ -2,7 +2,6 @@ import * as chai from "chai";
 import Player from "shared/player";
 import { Vector } from "shared/math-utils";
 import State from "shared/state";
-import { version } from "../../node_modules/@types/react/index";
 
 chai.should();
 

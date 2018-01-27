@@ -27,7 +27,7 @@ export default class Player implements NetworkObject {
 
     id: string;
     team = 0;
-
+    alive: boolean;
     /**
      * The parent state of the player.
      */
@@ -42,10 +42,11 @@ export default class Player implements NetworkObject {
         this.maxSpeed = 500;
         this.maxAcceleration = 500;
         this.attackTime = 0;
-        this.attackCooldown = 0.05;
+        this.attackCooldown = 0.1;
         this.specialTime = 0;
         this.specialCooldown = 3;
         this.team = team;
+        this.alive = true;
     }
     /**
      * Updates the player.
@@ -65,6 +66,7 @@ export default class Player implements NetworkObject {
      * @param dy 
      */
     move(dir: Coord) {
+        if(!this.alive) return;
         this.velocity.add(new Vector(dir).length(this.maxSpeed));
     }
     /**
@@ -72,6 +74,7 @@ export default class Player implements NetworkObject {
      * @param p the target location.
      */
     attack(p: Coord) {
+        if(!this.alive) return;
         if (this.attackTime != 0) return;
         let pvelocity = new Vector(p).sub(this.position).length(this.projectileSpeed);
         let projectile = this.state.createProjectile(this.position.clone(), pvelocity, this.team);
@@ -80,6 +83,7 @@ export default class Player implements NetworkObject {
     }
 
     special(p: Coord) {
+        if(!this.alive) return;
         if (this.specialTime != 0) return;
         let velocityCenter = new Vector(p).sub(this.position).length(this.projectileSpeed);
         const spread = 30;
@@ -101,13 +105,15 @@ export default class Player implements NetworkObject {
             specialTime: this.specialTime,
             position: this.position,
             velocity: this.velocity,
+            alive: this.alive,
         }
     }
     deserialize(data: any) {
         this.team = data.team;
         this.attackTime = data.attackTime;
         this.specialTime = data.specialTime;
-        this.position = new Vector(data.position),
-            this.velocity = new Vector(data.velocity)
+        this.position = new Vector(data.position);
+        this.velocity = new Vector(data.velocity);
+        this.alive = data.alive;
     }
 }

@@ -1,5 +1,5 @@
 import * as React from "react";
-import * as Game from "game";
+import * as Game from "src/game";
 
 /**
  * The game canvas. 

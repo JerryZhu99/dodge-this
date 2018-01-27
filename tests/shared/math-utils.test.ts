@@ -68,4 +68,9 @@ describe("Vectors", function () {
         a.normalize().should.equal(a);
         a.magnitude.should.be.approximately(1, 0.0001);
     });
+    it("should calculate distance to another", function (){
+        let a = Vector.coords(3, 4);
+        let b = Vector.coords(0, 8);
+        a.distanceTo(b).should.be.approximately(5, 0.0001);
+    });
 })

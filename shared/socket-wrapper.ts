@@ -22,4 +22,8 @@ export default class SocketWrapper {
         }
         this.socket.send(JSON.stringify({ event: event, data: data }));
     }
+
+    close(){
+        this.socket.close();
+    }
 }

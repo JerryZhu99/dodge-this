@@ -7,6 +7,7 @@ import ServerPlayer from 'server-player';
 import { Vector } from 'shared/math-utils';
 import { setInterval } from 'timers';
 import SocketWrapper from 'shared/socket-wrapper';
+import { getSmallestTeam } from 'shared/teams';
 SocketWrapper.webSocketClass = WebSocket;
 const ip = "localhost";
 const port = 8000;
@@ -27,9 +28,9 @@ const wss = new WebSocket.Server({
 wss.on('connection', function connection(ws, req) {
     let socket = new SocketWrapper(ws);
     console.log("connection");
-    let player = new ServerPlayer(Vector.zero, gameState.players.length + 1, socket);
-    player.id = uuid();
+    let player = new ServerPlayer(Vector.zero, getSmallestTeam(gameState.players), socket);
     gameState.addPlayer(player);
+    gameState.addConnection(player);
     socket.send("local player", player.serialize());
     ws.on('message', (dataObject: string) => {
         let dataParsed: {
@@ -51,10 +52,12 @@ wss.on('connection', function connection(ws, req) {
     ws.on('error', () => {
         console.log('errored');
         gameState.removePlayer(player);
+        gameState.removeConnection(player);
     });
     ws.on('closed', () => {
         console.log('closed');
         gameState.removePlayer(player);
+        gameState.removeConnection(player);
     });
 });
 

@@ -39,7 +39,8 @@ export default class State {
      * @param p The projectile to remove.
      */
     removeProjectile(p: Projectile) {
-        this.projectiles.splice(this.projectiles.indexOf(p), 1);
+        let index = this.projectiles.indexOf(p);
+        if(index != -1) this.projectiles.splice(index, 1);
     }
 
     createPlayer(p: Coord, team: number) {
@@ -59,7 +60,8 @@ export default class State {
      * @param p The player to remove.
      */
     removePlayer(p: Player) {
-        this.players.splice(this.players.indexOf(p), 1);
+        let index = this.players.indexOf(p);
+        if(index != -1) this.players.splice(index, 1);
     }
 
     /**
@@ -71,6 +73,11 @@ export default class State {
         this.projectiles.forEach(e => e.update(deltaTime));
 
         this.constrainPlayerPositions();
+        for (let i = this.players.length - 1; i >= 0; i--) {
+            const player = this.players[i];
+            if (!player) continue;
+            if (!player.alive) this.removePlayer(player);
+        }
     }
 
     private constrainPlayerPositions() {

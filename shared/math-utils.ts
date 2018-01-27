@@ -112,4 +112,8 @@ export class Vector extends Coord {
     normalize() {
         return this.length(1);
     }
+
+    distanceTo(p: Coord) {
+        return Math.hypot((this.x - p.x), (this.y - p.y));
+    }
 }
