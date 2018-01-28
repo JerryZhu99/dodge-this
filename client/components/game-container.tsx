@@ -10,6 +10,9 @@ export class Canvas extends React.Component<any, any>{
   componentDidMount() {
     Game.init(this.canvas);
   }
+  componentWillUnmount(){
+    Game.destroy();
+  }
   render() {
     return <canvas ref={c => this.canvas = c}
       //https://stackoverflow.com/a/33924816
@@ -23,20 +26,18 @@ export class Canvas extends React.Component<any, any>{
 /**
  * Describes the game page.
  */
-export default class GameContainer extends React.Component<any, any> {
-  constructor(props: any) {
-    super(props);
-  }
-
+export default class GameContainer extends React.Component {
   render() {
-    return <div className="container">
-      <h1>Text</h1>
-      <div className={"row"}>
-        <div className="col">
-          <Canvas width="1600" height="900"></Canvas>
+    return (
+      <div className="container">
+        <h1>Text</h1>
+        <div className="row">
+          <div className="col">
+            <Canvas width="1600" height="900"></Canvas>
+          </div>
         </div>
       </div>
-    </div>;
+    );
   }
 }
 

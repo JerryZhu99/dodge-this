@@ -44,6 +44,10 @@ export default class ClientState extends State {
         stage.addChild(this.projectilesContainer);
         stage.addChild(this.playersContainer);
     }
+    destroy(){
+        this.playersContainer.destroy();
+        this.projectilesContainer.destroy();
+    }
     createPlayer(p: Coord, team: number) {
         return new PlayerObject(new Vector(p), team);
     }

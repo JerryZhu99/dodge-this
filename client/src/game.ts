@@ -40,4 +40,11 @@ export function init(canvas: HTMLCanvasElement) {
     app.ticker.add((d: number) => { (state.update(d)) })
 }
 
-
+export function destroy(){
+    setImmediate(function(){
+        app.destroy();
+        background.destroy();
+        stage.destroy();
+        state.destroy();
+    });
+}

@@ -3,6 +3,8 @@ import * as Keyboard from "keyboard";
 import { app, stage, state, background } from "game"
 import { Vector } from "shared/math-utils";
 
+var initialized = false;
+
 var keyW = Keyboard.key(Keyboard.keyCode("W"));
 var keyA = Keyboard.key(Keyboard.keyCode("A"));
 var keyS = Keyboard.key(Keyboard.keyCode("S"));
