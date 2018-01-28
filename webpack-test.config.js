@@ -38,7 +38,7 @@ module.exports = {
     externals: [nodeExternals()],
     plugins: [
         new WebpackShellPlugin({
-            onBuildExit: "mocha dist-tests/tests.js || exit 0"
+            onBuildExit: "mocha dist-tests/tests.js --color || exit 0"
         })
     ]
 };
