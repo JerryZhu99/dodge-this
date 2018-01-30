@@ -18,8 +18,8 @@ export var state = new ClientState();
 
 export function init(canvas: HTMLCanvasElement) {
     app = new PIXI.Application({
-        width: 1600,
-        height: 900,
+        width: canvas.clientWidth,
+        height: canvas.clientHeight,
         view: canvas,
         antialias: true
     })
@@ -38,6 +38,7 @@ export function init(canvas: HTMLCanvasElement) {
     app.ticker.speed = 1 / 60.0;
     app.ticker.add(Controls.update);
     app.ticker.add((d: number) => { (state.update(d)) })
+    app.start()
 }
 
 export function destroy(){
@@ -45,6 +46,6 @@ export function destroy(){
         app.destroy();
         background.destroy();
         stage.destroy();
-        state.destroy();
+
     });
 }

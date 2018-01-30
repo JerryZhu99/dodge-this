@@ -3,16 +3,21 @@ export default class SocketWrapper {
     static webSocketClass: { OPEN: any }
 
     socket: any;
+    
+    handlers: any;
 
     constructor(socket: any) {
         this.socket = socket;
+        this.handlers = {};
+        this.socket.addEventListener("message", (message: any) => {
+            let data = JSON.parse(message.data);
+            let handler = this.handlers[data.event];
+            if(handler) handler(data.data);
+        });
     }
 
     on(event: string, handler: (data: any) => (any)) {
-        this.socket.addEventListener("message", (message: any) => {
-            let data = JSON.parse(message.data);
-            if (data.event == event) handler(data.data);
-        });
+        this.handlers[event] = handler;
     }
 
     send(event: string, data: any) {

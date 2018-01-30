@@ -16,6 +16,7 @@ const app = express();
 const server = new http.Server(app);
 
 app.use(express.static('dist'));
+app.use(express.static('assets'));
 
 let gameState = new ServerState();
 

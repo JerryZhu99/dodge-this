@@ -1,7 +1,8 @@
-import { Container, Graphics } from "pixi.js";
+import { Container, Graphics, Sprite, Point } from "pixi.js";
 import { Vector } from "shared/math-utils";
 import Projectile from "shared/projectile";
 import { teamColours } from "shared/teams";
+import { circle } from "./resources";
 
 export default class ProjectileObject extends Projectile {
     display: Container;
@@ -12,24 +13,24 @@ export default class ProjectileObject extends Projectile {
         super(p, v, team);
         this.display = new Container();
         this.trailPoints = new Array<Vector>();
+        let sprite = new Sprite(circle);
+        sprite.scale = new Point(10/1024,10/1024);
+        sprite.position = new Point(-5,-5);
+        sprite.tint = teamColours[this.team];
+        this.display.addChild(sprite);
+
         this.lead = new Graphics();
-        this.trail = new Graphics();
-        let graphics = new Graphics();
-        graphics.lineStyle(0);
-        graphics.beginFill(teamColours[team], 0.9);
-        graphics.drawCircle(0, 0, this.radius);
-        graphics.endFill();
-        this.display.addChild(graphics);
         this.display.addChild(this.lead);
-        this.display.addChild(this.trail);
+
         this.display.position.x = this.position.x;
         this.display.position.y = this.position.y;
     }
     update(deltaTime: number) {
         super.update(deltaTime);
-        this.display.position.x = this.position.x;
-        this.display.position.y = this.position.y;
-        this.drawTrail();
+        this.display.position.x = this.position.x * 0.5 + this.display.position.x * 0.5;
+        this.display.position.y = this.position.y * 0.5 + this.display.position.y * 0.5;
+        if(isNaN(this.display.position.y)) this.display.position.y = this.position.y;
+        if(isNaN(this.display.position.x)) this.display.position.x = this.position.x;
         this.drawLead();
     }
 
