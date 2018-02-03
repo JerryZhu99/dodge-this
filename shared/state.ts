@@ -7,6 +7,8 @@ import { Vector, Coord } from "math-utils";
  */
 export default class State {
 
+    time: number;
+
     mapWidth = 1600.0 * 10 / 9;
     mapHeight = 1000.0;
 
@@ -14,6 +16,7 @@ export default class State {
     projectiles: Array<Projectile>;
 
     constructor() {
+        this.time = 0;
         this.players = new Array<Player>();
         this.projectiles = new Array<Projectile>();
     }
@@ -69,6 +72,7 @@ export default class State {
      * @param deltaTime 
      */
     update(deltaTime: number) {
+        this.time += deltaTime;
         this.players.forEach(e => e.update(deltaTime));
         this.projectiles.forEach(e => e.update(deltaTime));
 

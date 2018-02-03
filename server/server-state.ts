@@ -8,14 +8,16 @@ import SocketWrapper from "shared/socket-wrapper";
  * The server-side state of a game.
  */
 export default class ServerState extends State {
+    id: string;
     players: ServerPlayer[];
     connections: SocketWrapper[];
     constructor() {
         super();
+        this.id = uuid();
         this.connections = [];
     }
 
-    addPlayer(player: ServerPlayer){
+    addPlayer(player: ServerPlayer) {
         super.addPlayer(player);
         player.id = uuid();
     }
@@ -34,7 +36,7 @@ export default class ServerState extends State {
                 const projectile = this.projectiles[j];
                 if (!projectile) continue;
                 if (projectile.position.distanceTo(player.position) <= player.radius) {
-                    if(player.team != projectile.team){
+                    if (player.team != projectile.team) {
                         this.removeProjectile(projectile);
                         this.removePlayer(player);
                         player.alive = false;
@@ -44,16 +46,16 @@ export default class ServerState extends State {
         }
         this.synchronize();
     }
-    synchronize(){
-        for(let socket of this.connections){
+    synchronize() {
+        for (let socket of this.connections) {
             socket.send("state", this.serialize());
         }
     }
-    addConnection(player: ServerPlayer){
+    addConnection(player: ServerPlayer) {
         this.connections.push(player.socket);
     }
-    removeConnection(player: ServerPlayer){
+    removeConnection(player: ServerPlayer) {
         let index = this.connections.indexOf(player.socket);
-        if(index != -1) this.connections.splice(index, 1);
+        if (index != -1) this.connections.splice(index, 1);
     }
 }
