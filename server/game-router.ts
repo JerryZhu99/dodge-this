@@ -1,6 +1,6 @@
 import * as express from 'express';
-import GameManager from './game-manager';
-import { gameManager } from './server';
+import GameManager from 'game-manager';
+import { gameManager } from 'server';
 export const GamesRouter = express.Router();
 
 GamesRouter.get('/games', (req, res) => {

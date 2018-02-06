@@ -3,7 +3,7 @@ import * as WebSocket from 'ws';
 import * as http from "http";
 import SocketWrapper from 'shared/socket-wrapper';
 import GameManager from 'game-manager';
-import { GamesRouter } from './game-router';
+import { GamesRouter } from 'game-router';
 
 SocketWrapper.webSocketClass = WebSocket;
 const ip = "localhost";

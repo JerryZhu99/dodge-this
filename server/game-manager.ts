@@ -87,7 +87,4 @@ export default class GameManager {
             player.move(data);
         }
     }
-    destroy(){
-        clearInterval(this.timer);
-    }
 }
