@@ -7,7 +7,6 @@ import ProjectileObject from "projectile-object";
 import { Vector, Coord } from "shared/math-utils";
 import Projectile from "shared/projectile";
 import SocketWrapper from "shared/socket-wrapper";
-SocketWrapper.webSocketClass = WebSocket;
 
 export default class ClientState extends State {
     localPlayer: PlayerObject;
@@ -24,7 +23,7 @@ export default class ClientState extends State {
         super();
         this.playersContainer = new Container();
         this.projectilesContainer = new Container();
-
+        SocketWrapper.webSocketClass = WebSocket;
         this.socket = new SocketWrapper(new WebSocket(`ws://${location.host}`));
 
         this.socket.on("state", this.deserialize.bind(this));

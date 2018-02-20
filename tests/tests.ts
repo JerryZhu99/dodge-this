@@ -1,4 +1,3 @@
-import "tests/shared/math-utils.test";
-import "tests/shared/player.test";
-import "tests/shared/state.test";
-import "tests/shared/teams.test";
+import "tests/shared/test";
+import "tests/client/test";
+import "tests/server/test";

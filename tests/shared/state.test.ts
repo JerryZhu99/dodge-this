@@ -11,14 +11,20 @@ chai.should();
 chai.use(sinonChai);
 
 describe("State", function () {
+    testState(function () {
+        return new State();
+    });
+})
+
+export function testState(init: () => State) {
     let state: State;
-    beforeEach(function () {
-        state = new State();
+    beforeEach(function(){
+        state = init();
     });
     it("should have players and projectiles", function () {
         state.players.should.be.an("array");
         state.projectiles.should.be.an("array");
-    })
+    });
     it("should create projectiles", function () {
         let projectile = state.createProjectile(Vector.coords(1, 1), Vector.coords(2, 0), 2);
         projectile.should.be.an.instanceOf(Projectile);
@@ -27,7 +33,7 @@ describe("State", function () {
         projectile.velocity.x.should.equal(2);
         projectile.velocity.y.should.equal(0);
         projectile.team.should.equal(2);
-    })
+    });
     it("should add existing projectiles", function () {
         let projectile = state.createProjectile(Vector.coords(1, 1), Vector.coords(2, 0), 2);
         state.addProjectile(projectile);
@@ -35,12 +41,8 @@ describe("State", function () {
         state.projectiles.should.contain(projectile);
     });
     it("should remove projectiles", function () {
-        let projectile1 = state.createProjectile(
-            Vector.coords(1, 1),
-            Vector.coords(2, 0), 2);
-        let projectile2 = state.createProjectile(
-            Vector.coords(2, 2),
-            Vector.coords(1, 1), 1);
+        let projectile1 = state.createProjectile(Vector.coords(1, 1), Vector.coords(2, 0), 2);
+        let projectile2 = state.createProjectile(Vector.coords(2, 2), Vector.coords(1, 1), 1);
         state.addProjectile(projectile1);
         state.addProjectile(projectile2);
         state.removeProjectile(projectile1);
@@ -49,12 +51,8 @@ describe("State", function () {
         state.projectiles.should.contain(projectile2);
     });
     it("should not remove projectiles it does not have", function () {
-        let projectile1 = state.createProjectile(
-            Vector.coords(1, 1),
-            Vector.coords(2, 0), 2);
-        let projectile2 = state.createProjectile(
-            Vector.coords(2, 2),
-            Vector.coords(1, 1), 1);
+        let projectile1 = state.createProjectile(Vector.coords(1, 1), Vector.coords(2, 0), 2);
+        let projectile2 = state.createProjectile(Vector.coords(2, 2), Vector.coords(1, 1), 1);
         state.addProjectile(projectile1);
         state.removeProjectile(projectile2);
         state.projectiles.should.have.length(1);
@@ -69,7 +67,7 @@ describe("State", function () {
         player.velocity.x.should.equal(0);
         player.velocity.y.should.equal(0);
         player.team.should.equal(2);
-    })
+    });
     it("should add existing players", function () {
         let player = state.createPlayer(Vector.coords(2, 0), 2);
         state.addPlayer(player);
@@ -96,26 +94,19 @@ describe("State", function () {
         state.players.should.not.contain(player2);
     });
     it("should update all players and projectiles.", function () {
-        let projectile1 = state.createProjectile(
-            Vector.coords(1, 1),
-            Vector.coords(2, 0), 2);
+        let projectile1 = state.createProjectile(Vector.coords(1, 1), Vector.coords(2, 0), 2);
         let player1 = state.createPlayer(Vector.coords(1, 1), 2);
-
         let projectileUpdate = sinon.spy(projectile1, "update");
         let playerUpdate = sinon.spy(player1, "update");
-
         state.addProjectile(projectile1);
         state.addPlayer(player1);
-
         state.update(0.5);
         projectileUpdate.should.have.been.calledOnce;
         projectileUpdate.should.have.been.calledWith(0.5);
         playerUpdate.should.have.been.calledOnce;
         playerUpdate.should.have.been.calledWith(0.5);
-
     });
-
     it("should constrain player positions to the map");
     it("should remove dead players");
     it("should serialize and deserialize");
-})
+}

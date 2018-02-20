@@ -14,9 +14,10 @@ export var background: Container;
 export var stage: Container;
 
 export var player: PlayerObject;
-export var state = new ClientState();
+export var state: ClientState;
 
 export function init(canvas: HTMLCanvasElement) {
+    state = new ClientState();
     app = new PIXI.Application({
         width: canvas.clientWidth,
         height: canvas.clientHeight,
