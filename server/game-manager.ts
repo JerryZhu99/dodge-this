@@ -12,7 +12,7 @@ import * as uuid from "uuid/v4";
 export default class GameManager {
     games: Map<string, ServerState>;
 
-    private expected: number; 
+    private expected: number;
     private updateInterval = 1000 / 60.0;
     constructor(wss: WebSocket.Server) {
 
@@ -25,11 +25,11 @@ export default class GameManager {
             console.log("connection");
             let gameState: ServerState;
             let gameId: string;
-            if(this.games.size == 0){
+            if (this.games.size == 0) {
                 gameState = new ServerState();
                 gameId = gameState.id;
                 this.games.set(gameId, gameState);
-            }else{
+            } else {
                 gameState = this.games.entries().next().value[1];
                 gameId = gameState.id;
             }
@@ -55,9 +55,9 @@ export default class GameManager {
         });
     }
 
-    public updateGames(){
+    public updateGames() {
         let dt = Date.now() - this.expected;
-        if(dt > this.updateInterval){
+        if (dt > this.updateInterval) {
             console.error("server is behind");
         }
         this.games.forEach((game, key) => {
@@ -67,7 +67,7 @@ export default class GameManager {
             }
         });
         this.expected += this.updateInterval;
-        setTimeout(()=>{this.updateGames()}, Math.max(0, this.updateInterval - dt));
+        setTimeout(() => { this.updateGames() }, Math.max(0, this.updateInterval - dt));
     }
 
     private handlePlayerEvent(dataObject: string, player: ServerPlayer) {
