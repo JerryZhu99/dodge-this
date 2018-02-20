@@ -1,4 +1,30 @@
+
+$font-family-base: "Raleway", Arial, Helvetica, sans-serif;
+
 @import "~bootstrap/scss/bootstrap";
+
+.fill{
+    min-height: calc(100vh - 3.5rem - 1px);
+}
+
+$border-color: #e5e5e5;
+
+.border-lr {
+    border-left: 1px solid $border-color; 
+    border-right: 1px solid $border-color; 
+}
+
+.border-b {
+    border-bottom: 1px solid $border-color; 
+}
+
+.box-shadow { 
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); 
+}
+
+.navbar-brand{
+    font-family: "Orbitron", "Raleway", Arial, Helvetica, sans-serif;
+}
 
 canvas{
     user-select: none;

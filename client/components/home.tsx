@@ -1,15 +1,19 @@
 import * as React from "react";
-import GamesList from "components/games-list";
+import NewsList from "components/news-list";
 
-export default class Home extends React.Component{
-    render(){
+export default class Home extends React.Component {
+    render() {
         return (
-            <div className="container">
-                <h1 className="display-1">
-                    Welcome!
-                </h1>
-                <h2>Open Games</h2>
-                <GamesList/>
+            <div className="container border-lr fill">
+                <div className="row">
+                    <div className="col mt-3">
+                        <header>
+                            <h1>News</h1>
+                            <hr />
+                        </header>
+                        <NewsList />
+                    </div>
+                </div>
             </div>
         );
     }
