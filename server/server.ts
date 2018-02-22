@@ -3,7 +3,8 @@ import * as WebSocket from 'ws';
 import * as http from "http";
 import SocketWrapper from 'shared/socket-wrapper';
 import GameManager from 'game-manager';
-import LobbyManager from './lobby-manager';
+import Games from 'games';
+import Lobbies from 'lobbies';
 
 SocketWrapper.webSocketClass = WebSocket;
 const ip = "localhost";
@@ -19,13 +20,15 @@ const wss = new WebSocket.Server({
     server: server
 });
 
-export const lobbyManager = new LobbyManager();
-export const gameManager = new GameManager(wss);
+const lobbies = new Lobbies();
+const games = new Games();
+
+export const gameManager = new GameManager();
 
 wss.on('connection', (ws, req) => {
     let socket = new SocketWrapper(ws);
     console.log("connection");
-    gameManager.connection(socket);
+    gameManager.connection(socket, games);
 });
 
 

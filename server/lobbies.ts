@@ -1,7 +1,7 @@
 import ServerPlayer from "./server-player";
 import * as uuid from "uuid/v4";
 
-export default class LobbyManager {
+export default class Lobbies {
     private lobbies: Map<string, Lobby>;
     constructor() {
         this.lobbies = new Map<string, Lobby>();
@@ -25,7 +25,6 @@ export default class LobbyManager {
             this.lobbies.delete(lobby.id);
         }
     }
-
 }
 
 class Lobby {
