@@ -14,7 +14,7 @@ export default class Games {
         this.updateGames();
     }
 
-    public updateGames() {
+    private updateGames() {
         let dt = Date.now() - this.expected;
         if (dt > this.updateInterval) {
             console.error("server is behind");

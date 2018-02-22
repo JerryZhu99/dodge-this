@@ -22,8 +22,7 @@ const wss = new WebSocket.Server({
 
 const lobbies = new Lobbies();
 const games = new Games();
-
-export const gameManager = new GameManager();
+const gameManager = new GameManager();
 
 wss.on('connection', (ws, req) => {
     let socket = new SocketWrapper(ws);

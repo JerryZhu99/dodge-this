@@ -1,11 +1,11 @@
 
 export default class SocketWrapper {
 
-    static webSocketClass: { OPEN: any }
+    public static webSocketClass: { OPEN: any }
 
-    socket: any;
+    private socket: any;
 
-    handlers: Map<string, EventHandler>;
+    private handlers: Map<string, EventHandler>;
 
     constructor(socket: any) {
         this.socket = socket;
